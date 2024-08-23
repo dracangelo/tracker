@@ -28,8 +28,6 @@ class ExpenseTrackerApp:
         self.notebook.add(self.dashboard_frame, text="Dashboard")
         self.setup_dashboard()
 
-
-    
     def setup_data_entry(self):
         # Date Entry
         ttk.Label(self.data_entry_frame, text="Date:").grid(row=0, column=0, padx=5, pady=5)
@@ -51,7 +49,34 @@ class ExpenseTrackerApp:
         submit_button = ttk.Button(self.data_entry_frame, text="Submit", command=self.submit_expense)
         submit_button.grid(row=3, column=0, columnspan=2, pady=10)
 
+    def setup_dashboard(self):
+        # This method will be implemented later to create the dashboard
 
+    def submit_expense(self):
+        date = self.date_entry.get()
+        amount = self.amount_entry.get()
+        category = self.category_entry.get()
+
+        try:
+            amount = float(amount)
+            date = datetime.strptime(date, "%Y-%m-%d")
+        except ValueError:
+            messagebox.showerror("Error", "Invalid date or amount format")
+            return
+
+        new_expense = pd.DataFrame({'Date': [date], 'Amount': [amount], 'Category': [category]})
+        self.expenses_df = pd.concat([self.expenses_df, new_expense], ignore_index=True)
+
+        messagebox.showinfo("Success", "Expense added successfully")
+        self.clear_entries()
+        self.update_dashboard()
+
+    def clear_entries(self):
+        self.amount_entry.delete(0, tk.END)
+        self.category_entry.set('')
+
+    def update_dashboard(self):
+        # This method will be implemented later to update the dashboard
 
 if __name__ == "__main__":
     root = tk.Tk()
