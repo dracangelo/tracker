@@ -29,6 +29,29 @@ class ExpenseTrackerApp:
         self.setup_dashboard()
 
 
+    
+    def setup_data_entry(self):
+        # Date Entry
+        ttk.Label(self.data_entry_frame, text="Date:").grid(row=0, column=0, padx=5, pady=5)
+        self.date_entry = ttk.Entry(self.data_entry_frame)
+        self.date_entry.grid(row=0, column=1, padx=5, pady=5)
+        self.date_entry.insert(0, datetime.now().strftime("%Y-%m-%d"))
+
+        # Amount Entry
+        ttk.Label(self.data_entry_frame, text="Amount:").grid(row=1, column=0, padx=5, pady=5)
+        self.amount_entry = ttk.Entry(self.data_entry_frame)
+        self.amount_entry.grid(row=1, column=1, padx=5, pady=5)
+
+        # Category Entry
+        ttk.Label(self.data_entry_frame, text="Category:").grid(row=2, column=0, padx=5, pady=5)
+        self.category_entry = ttk.Combobox(self.data_entry_frame, values=["Food", "Transport", "Utilities", "Entertainment", "Other"])
+        self.category_entry.grid(row=2, column=1, padx=5, pady=5)
+
+        # Submit Button
+        submit_button = ttk.Button(self.data_entry_frame, text="Submit", command=self.submit_expense)
+        submit_button.grid(row=3, column=0, columnspan=2, pady=10)
+
+
 
 if __name__ == "__main__":
     root = tk.Tk()
