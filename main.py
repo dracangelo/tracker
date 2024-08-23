@@ -115,26 +115,25 @@ class ExpenseTrackerApp:
         self.update_dashboard()
 
     def submit_expense(self):
-        date = self.date_entry.get()
-        amount = self.amount_entry.get()
-        category = self.category_entry.get()
+            date = self.date_entry.get()
+            amount = self.amount_entry.get()
+            category = self.category_entry.get()
 
-        try:
-            amount = float(amount)
-            date = datetime.strptime(date, "%Y-%m-%d")
-        except ValueError:
-            messagebox.showerror("Error", "Invalid date or amount format")
-            return
+            try:
+                amount = float(amount)
+                date = datetime.strptime(date, "%Y-%m-%d")
+            except ValueError:
+                messagebox.showerror("Error", "Invalid date or amount format")
+                return
 
-        new_expense = pd.DataFrame({'Date': [date], 'Amount': [amount], 'Category': [category]})
-        self.expenses_df = pd.concat([self.expenses_df, new_expense], ignore_index=True)
-        self.expenses_df.to_csv(self.data_file, index=False)
+            new_expense = pd.DataFrame({'Date': [date], 'Amount': [amount], 'Category': [category]})
+            self.expenses_df = pd.concat([self.expenses_df, new_expense], ignore_index=True, sort=False)
+            self.expenses_df.to_csv(self.data_file, index=False)
 
-        messagebox.showinfo("Success", "Expense added successfully")
-        self.clear_entries()
-        self.update_expense_list()
-        self.update_dashboard()
-
+            messagebox.showinfo("Success", "Expense added successfully")
+            self.clear_entries()
+            self.update_expense_list()
+            self.update_dashboard()
     def clear_entries(self):
         self.amount_entry.delete(0, tk.END)
         self.category_entry.set('')
