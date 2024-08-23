@@ -41,8 +41,13 @@ class ExpenseTrackerApp:
             except (pd.errors.ParserError, ValueError) as e:
                 messagebox.showwarning("File Error", f"Error reading {self.data_file}. Starting with empty data. Error: {str(e)}")
                 # If there's an error, rename the problematic file
-                os.rename(self.data_file, f"{self.data_file}.bak")
-                messagebox.showinfo("Backup Created", f"The problematic file has been renamed to {self.data_file}.bak")
+                backup_file = f"{self.data_file}.bak"
+                counter = 1
+                while os.path.exists(backup_file):
+                    backup_file = f"{self.data_file}.bak{counter}"
+                    counter += 1
+                os.rename(self.data_file, backup_file)
+                messagebox.showinfo("Backup Created", f"The problematic file has been renamed to {backup_file}")
         
         # If file doesn't exist or there was an error, return an empty DataFrame
         return pd.DataFrame(columns=['Date', 'Amount', 'Category'])
